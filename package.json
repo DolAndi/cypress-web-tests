@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "cypress:open": "cypress open"
+    "cy:open": "cypress open",
+    "cy:ui-regression": "cypress run --config video=false  --browser chrome --spec cypress/e2e/01_allTests.spec.js"
   },
   "keywords": [],
   "author": "",
