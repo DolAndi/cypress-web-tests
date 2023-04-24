@@ -3,7 +3,8 @@ const locators = {
         inputEmail: '#user-name',
         inputPassword: '#password',
         loginBt: '#login-button',
-        loginValidation: '#page_wrapper'
+        loginValidation: '#page_wrapper',
+        errorValidation: '.error-message-container'
     }
 }
 
