@@ -43,3 +43,9 @@ Para rodar em modo janela:
 ```bash
   npm run cy:open
 ```
+
+
+## 🔗 Links
+
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/andriano-toazza-291077218/)
+
