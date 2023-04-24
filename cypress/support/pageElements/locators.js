@@ -1,6 +1,9 @@
 const locators = {
     LOGIN: {
-        inputEmail: '(//*[@type="email"])[1]'
+        inputEmail: '#user-name',
+        inputPassword: '#password',
+        loginBt: '#login-button',
+        loginValidation: '#page_wrapper'
     }
 }
 

@@ -19,7 +19,7 @@ module.exports = defineConfig({
     env: {
       allureReuseAfterSpec: true
     },
-    baseUrl: '',
+    baseUrl: 'https://www.saucedemo.com',
     specPattern: 'cypress/e2e/**/*.{js,jsx,ts,tsx}',
     retries: {
       runMode: 2,
