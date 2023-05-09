@@ -21,4 +21,10 @@ describe('Login', () => {
     it('03 - Login unsuccessfully - faker br', () => {
         cy.errorLogin(randomEmailBR, randomPassword)
     });
+    it('04 - Login unsuccessfully - password is required', () => {
+        cy.otherErrorLogin('passwordRequired')
+    });
+    it('05 - Login unsuccessfully - username is required', () => {
+        cy.otherErrorLogin('usernameRequired')
+    });
 });

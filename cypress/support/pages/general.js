@@ -24,6 +24,22 @@ class general {
         cy.get(loc.LOGIN.inputPassword).type(randomPassword).as('write password')
         cy.get(loc.LOGIN.loginBt).click().as('click login button')
         cy.get(loc.LOGIN.errorValidation).should('exist', 'be.visible').as('error login validation')
+        cy.xpath(loc.COMMON.seeText('Username and password do not match any user in this service')).should('exist', 'be.visible').as('error login validation')
+    }
+    otherErrorLogin(data){
+        const userMail = 'test@test.com'
+        if (data === 'passwordRequired') {
+            cy.get(loc.LOGIN.inputEmail).type(userMail).as('write email')
+            cy.get(loc.LOGIN.loginBt).click().as('click login button')
+            cy.get(loc.LOGIN.errorValidation).should('exist', 'be.visible').as('error login validation')
+            cy.xpath(loc.COMMON.seeText('Password is required')).should('exist', 'be.visible').as('error login validation')
+        }
+        if (data === 'usernameRequired') {
+            cy.get(loc.LOGIN.inputPassword).type(userMail).as('write password')
+            cy.get(loc.LOGIN.loginBt).click().as('click login button')
+            cy.get(loc.LOGIN.errorValidation).should('exist', 'be.visible').as('error login validation')
+            cy.xpath(loc.COMMON.seeText('Username is required')).should('exist', 'be.visible').as('error login validation')
+        }
     }
 }
 export default new general()
