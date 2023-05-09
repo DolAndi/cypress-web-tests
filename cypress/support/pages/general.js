@@ -1,45 +1,61 @@
-import loc from '../pageElements/locators';
+import locators from '../pageElements/locators';
 
-class general {
-    openApp() {
-        cy.visit('/').as('open site')
+class General {
+  openApp() {
+    cy.visit('/').as('open site');
+  }
+  successLogin(user) {
+    cy.fixture('login').then(login => {
+      const userEmailAddress = login[user + 'Email'];
+      const userPassword = login[user + 'Password'];
+      this.writeEmailAndPassword(userEmailAddress, userPassword);
+      this.clickLoginButton();
+      cy.get(locators.LOGIN.loginValidation)
+        .should('exist', 'be.visible')
+        .as('login validation');
+    });
+  }
+  errorLogin(randomEmailAddress, randomPassword) {
+    this.writeEmailAndPassword(randomEmailAddress, randomPassword);
+    this.clickLoginButton();
+    this.errorValidation('Username and password do not match any user in this service');
+  }
+  otherErrorLogin(data) {
+    const userEmailAddress = 'test@test.com';
+    const actions = {
+      passwordRequired: () => {
+        this.writeEmail(userEmailAddress);
+        this.clickLoginButton();
+        this.errorValidation('Password is required');
+      },
+      usernameRequired: () => {
+        this.writePassword(userEmailAddress);
+        this.clickLoginButton();
+        this.errorValidation('Username is required');
+      }
+    };
+
+    if (actions[data]) {
+      actions[data]();
     }
-    successLogin(user){
-        cy.fixture('login').then(function (login) {
-  
-        const userMail = user + 'Email'
-        const userPass = user + 'Password'
-            
-        this.loginMail = login[userMail]
-        this.loginPass = login[userPass]
-            
-        cy.get(loc.LOGIN.inputEmail).type(this.loginMail).as('write email')
-        cy.get(loc.LOGIN.inputPassword).type(this.loginPass).as('write password')
-        cy.get(loc.LOGIN.loginBt).click().as('click login button')
-        cy.get(loc.LOGIN.loginValidation).should('exist', 'be.visible').as('login validation')
-    })
-    }
-    errorLogin(randomEmail, randomPassword){
-        cy.get(loc.LOGIN.inputEmail).type(randomEmail).as('write email')
-        cy.get(loc.LOGIN.inputPassword).type(randomPassword).as('write password')
-        cy.get(loc.LOGIN.loginBt).click().as('click login button')
-        cy.get(loc.LOGIN.errorValidation).should('exist', 'be.visible').as('error login validation')
-        cy.xpath(loc.COMMON.seeText('Username and password do not match any user in this service')).should('exist', 'be.visible').as('error login validation')
-    }
-    otherErrorLogin(data){
-        const userMail = 'test@test.com'
-        if (data === 'passwordRequired') {
-            cy.get(loc.LOGIN.inputEmail).type(userMail).as('write email')
-            cy.get(loc.LOGIN.loginBt).click().as('click login button')
-            cy.get(loc.LOGIN.errorValidation).should('exist', 'be.visible').as('error login validation')
-            cy.xpath(loc.COMMON.seeText('Password is required')).should('exist', 'be.visible').as('error login validation')
-        }
-        if (data === 'usernameRequired') {
-            cy.get(loc.LOGIN.inputPassword).type(userMail).as('write password')
-            cy.get(loc.LOGIN.loginBt).click().as('click login button')
-            cy.get(loc.LOGIN.errorValidation).should('exist', 'be.visible').as('error login validation')
-            cy.xpath(loc.COMMON.seeText('Username is required')).should('exist', 'be.visible').as('error login validation')
-        }
-    }
+  }
+  writeEmailAndPassword(emailAddress, password) {
+    cy.get(locators.LOGIN.inputEmail).type(emailAddress).as('write email');
+    cy.get(locators.LOGIN.inputPassword).type(password).as('write password');
+  }
+  writeEmail(emailAddress) {
+    cy.get(locators.LOGIN.inputEmail).type(emailAddress).as('write email');
+  }
+  writePassword(password) {
+    cy.get(locators.LOGIN.inputPassword).type(password).as('write password');
+  }
+  clickLoginButton() {
+    cy.get(locators.LOGIN.loginBt).click().as('click login button');
+  }
+  errorValidation(errorMessage) {
+    cy.get(locators.LOGIN.errorValidation).should('exist', 'be.visible').as('error login validation');
+    cy.xpath(locators.COMMON.seeText(errorMessage)).should('exist', 'be.visible').as('error login validation');
+  }
 }
-export default new general()
+
+export default new General();
